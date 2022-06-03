@@ -13,6 +13,19 @@ public class Message {
     @Column(name = "text_message")
     private String textMessage;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

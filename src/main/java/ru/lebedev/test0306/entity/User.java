@@ -18,8 +18,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user")
     private List<Message> messageList = new ArrayList<>();
 
     public Long getId() {
