@@ -1,5 +1,9 @@
 package ru.lebedev.test0306.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,8 +18,10 @@ public class Message {
     private String textMessage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(referencedColumnName = "user_id")
     @JoinColumn(name = "user_id")
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonBackReference
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     public User getUser() {

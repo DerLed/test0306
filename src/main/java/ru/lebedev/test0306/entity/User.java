@@ -1,5 +1,8 @@
 package ru.lebedev.test0306.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +21,19 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Message> messageList = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Message> messages = new ArrayList<>();
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 
     public Long getId() {
         return id;
@@ -46,10 +60,10 @@ public class User {
     }
 
     public List<Message> getMessageList() {
-        return messageList;
+        return messages;
     }
 
     public void setMessageList(List<Message> messageList) {
-        this.messageList = messageList;
+        this.messages = messageList;
     }
 }

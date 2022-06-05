@@ -1,11 +1,14 @@
 package ru.lebedev.test0306.controller;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.lebedev.test0306.entity.User;
+import ru.lebedev.test0306.model.UserModel;
 import ru.lebedev.test0306.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -17,8 +20,11 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    List<User> all(){
-        return userRepository.findAll();
+    List<UserModel> all(){
+        return userRepository.findAll().stream().map(f ->
+        {UserModel n = new UserModel();
+            BeanUtils.copyProperties(f, n);
+        return n;}).collect(Collectors.toList());
     }
 
     @PostMapping("/users")
