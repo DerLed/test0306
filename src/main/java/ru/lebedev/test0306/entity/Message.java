@@ -21,8 +21,10 @@ public class Message {
     @JoinColumn(name = "user_id")
     //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     //@JsonBackReference
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
+
+
 
     public User getUser() {
         return user;

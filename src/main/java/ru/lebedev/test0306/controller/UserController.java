@@ -1,12 +1,14 @@
 package ru.lebedev.test0306.controller;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import ru.lebedev.test0306.entity.Message;
 import ru.lebedev.test0306.entity.User;
-import ru.lebedev.test0306.model.UserModel;
+import ru.lebedev.test0306.Dto.UserDto;
 import ru.lebedev.test0306.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,14 +22,20 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    List<UserModel> all(){
+    List<UserDto> all(){
         return userRepository.findAll().stream().map(f ->
-        {UserModel n = new UserModel();
-            BeanUtils.copyProperties(f, n);
-        return n;}).collect(Collectors.toList());
+        {
+            UserDto n = new UserDto();
+            n.setName(f.getName());
+            n.setMessages(f.messageToDto());
+            return n;
+        }
+        ).collect(Collectors.toList());
+
     }
 
     @PostMapping("/users")
+    @Fetch(FetchMode.SUBSELECT)
     public User newUser(@RequestBody User newUser){
         return userRepository.save(newUser);
     }
@@ -54,4 +62,6 @@ public class UserController {
     void deleteUser(@PathVariable Long id){
         userRepository.deleteById(id);
     }
+
+
 }
