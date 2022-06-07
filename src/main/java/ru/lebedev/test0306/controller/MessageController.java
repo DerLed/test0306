@@ -19,13 +19,20 @@ public class MessageController {
 
 
 
-//    @GetMapping("/messages")
-//    List<Message> all(){
-//        return messageRepository.findAll();
-//    }
     @GetMapping("/messages")
-    List<Message> userMessages(@RequestParam(required = false, name = "user_id") Long id){
-        return messageRepository.findByUserId(id);
+    List<Message> all(){
+        return messageRepository.findAll();
     }
+
+    @GetMapping("/messages/{id}")
+    MessageDto one(@PathVariable Long id){
+        Message m = messageRepository.findById(id).get();
+        return new MessageDto(m.getTextMessage());
+    }
+
+//    @GetMapping("/messages")
+//    List<Message> userMessages(@RequestParam(required = false, name = "user_id") Long id){
+//        return messageRepository.findByUserId(id);
+//    }
 
 }
